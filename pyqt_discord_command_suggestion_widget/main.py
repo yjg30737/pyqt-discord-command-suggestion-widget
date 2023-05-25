@@ -1,6 +1,7 @@
 import sys
 
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QTextCursor
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QSizePolicy
 
 from pyqt_discord_command_suggestion_widget.chatWidget import ChatBrowser
@@ -29,6 +30,7 @@ class CommandSuggestionGUI(QMainWindow):
         self.input_field = CommandTextEdit()
         self.input_field.returnPressed.connect(self.showText)
         self.input_field.textChanged.connect(self.update_suggestions)
+        self.input_field.sendSuggestionWidget.connect(self.send_keysignal_to_suggestion)
 
         layout.addWidget(self.__chatWidget)
         layout.addWidget(self.suggestionWidget)
@@ -50,6 +52,7 @@ class CommandSuggestionGUI(QMainWindow):
             input_text_chunk = input_text_chunk[-1]
             starts_with_f = input_text_chunk.startswith('/')
             self.suggestionWidget.setVisible(starts_with_f)
+            self.input_field.setCommandSuggestionEnabled(starts_with_f)
             if starts_with_f:
                 command_word = input_text_chunk[1:]
 
@@ -68,13 +71,25 @@ class CommandSuggestionGUI(QMainWindow):
                     self.suggestion_list.addItems(filtered_commands)
                     self.suggestion_list.setCurrentRow(0)
 
+    def send_keysignal_to_suggestion(self, key):
+        if key == 'up':
+            self.suggestion_list.setCurrentRow(max(0, self.suggestion_list.currentRow()-1))
+        elif key == 'down':
+            self.suggestion_list.setCurrentRow(min(self.suggestion_list.currentRow()+1, self.suggestion_list.count()-1))
+        elif key == 'enter':
+            self.execute_command(self.suggestion_list.currentItem())
+
     def showText(self):
         t = self.input_field.toPlainText()
         self.__chatWidget.showText(t)
 
     def execute_command(self, item):
         command = item.text()
-        self.input_field.textCursor().deletePreviousChar()
+
+        cursor = self.input_field.textCursor()
+        cursor.select(QTextCursor.WordUnderCursor)
+        self.input_field.setTextCursor(cursor)
+
         self.input_field.insertPlainText(command)
 
 
