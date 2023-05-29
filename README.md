@@ -9,6 +9,5 @@ Implementing base Discord command suggestion widget in PyQt
 2. run main.py
 
 ## Preview
-https://github.com/yjg30737/pyqt-discord-command-suggestion-widget/assets/55078043/0b7b0a52-9e83-480a-8913-742d3927cad2
-
+https://github.com/yjg30737/pyqt-discord-command-suggestion-widget/assets/55078043/a2c5bb29-3b04-478c-8943-16c5cb5eb668
 
