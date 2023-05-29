@@ -4,9 +4,9 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QTextCursor
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QSizePolicy
 
-from pyqt_discord_command_suggestion_widget.chatWidget import ChatBrowser
-from pyqt_discord_command_suggestion_widget.commandSuggestionWidget import CommandSuggestionWidget
-from pyqt_discord_command_suggestion_widget.commandTextEdit import CommandTextEdit
+from chatWidget import ChatBrowser
+from commandSuggestionWidget import CommandSuggestionWidget
+from commandTextEdit import CommandTextEdit
 
 
 class CommandSuggestionGUI(QMainWindow):
